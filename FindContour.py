@@ -4,7 +4,7 @@ import cv2
 
 biggest_contour = None
 biggest_area = 1
-imageFile='teste3.jpg'
+imageFile='fachada.jpg'
 image = cv2.imread(imageFile)
 height, width, channels = image.shape
 imgray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  
