@@ -32,7 +32,7 @@ def isExtCentral(extL,extR,extT,extB):
 		return True
 
 
-while True:#Loop que processa a imagem aumentando o MIN_THRESH ou diminuindo CENTRAL_AREA 
+while(cap.isOpened()):#Loop que processa a imagem aumentando o MIN_THRESH ou diminuindo CENTRAL_AREA 
 	if(CENTRAL_AREA<0.01):
 		break #interrompe a busca se a área central estiver tomando a imagem toda
        #capture frame-frame
@@ -72,16 +72,21 @@ while True:#Loop que processa a imagem aumentando o MIN_THRESH ou diminuindo CEN
 		MAX_Y = int(height * (1 - CENTRAL_AREA))
 
 
-#desenha quadrado que corresponde a região central
-cv2.rectangle(frame, (MIN_X, MIN_Y), (MAX_X, MAX_Y), (0, 255, 0), 3)
+	#desenha quadrado que corresponde a região central
+	cv2.rectangle(frame, (MIN_X, MIN_Y), (MAX_X, MAX_Y), (0, 255, 0), 3)
 
-moments = cv2.moments(biggest_contour)
-cx = int(moments['m10'] / biggest_area)
-cy = int(moments['m01'] / biggest_area)
-cv2.circle(frame, (cx, cy), 5, (255, 255, 0), -1)  # desenha um ponto azul no centro das figuras selecionadas
+	moments = cv2.moments(biggest_contour)
+	cx = int(moments['m10'] / biggest_area)
+	cy = int(moments['m01'] / biggest_area)
+	cv2.circle(frame, (cx, cy), 5, (255, 255, 0), -1)  # desenha um ponto azul no centro das figuras selecionadas
 
-cv2.drawContours(frame, [biggest_contour], -1, (0, 255, 255), 2)  # desenha borda amarela na figura de maior área
-cv2.imshow('Threshold', thresh)
-cv2.imshow('Frame',frame)
+	#cv2.drawContours(frame, [biggest_contour], -1, (0, 255, 255), 2)  # desenha borda amarela na figura de maior área
+	cv2.imshow('Threshold', thresh)
+	cv2.imshow('Frame',frame)
+	if cv2.waitKey(50) & 0xFF == ord('q'): #Regula a velocidade de exibição do vídeo
+		break
+	
+
+cap.release()
 cv2.waitKey()
 cv2.destroyAllWindows()
